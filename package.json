@@ -1,0 +1,65 @@
+{
+  "name": "@rescriptbr/reschema",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Schema library for ReScript",
+  "repository": "git@github.com:rescriptbr/reschema.git",
+  "homepage": "https://github.com/rescriptbr/reschema#readme",
+  "bugs": "https://github.com/rescriptbr/reschema/issues",
+  "keywords": [
+    "reason",
+    "bucklescript",
+    "react",
+    "form",
+    "rescript",
+    "rescript-react",
+    "rescript-forms",
+    "rescript-react-forms",
+    "rescript-reschema",
+    "reschema"
+  ],
+  "author": "Gabriel R. Abreu <grsabreu@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@commitlint/cli": "7.2.1",
+    "@commitlint/config-conventional": "7.1.2",
+    "babel-loader": "^8.1.0",
+    "husky": "1.2.1",
+    "lint-staged": "^7.0.0",
+    "pre-commit": "^1.2.2"
+  },
+  "lint-staged": {
+    "*.res": [
+      "git add"
+    ]
+  },
+  "pre-commit": "lint:staged",
+  "workspaces": [
+    "reschema",
+    "website",
+    "demo"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint:staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "scripts": {
+    "docs:watch": "yarn workspace website start",
+    "docs:build": "yarn workspace website build",
+    "bs:watch": "yarn workspace @rescriptbr/reschema bs:watch",
+    "bs:build": "yarn workspace @rescriptbr/reschema bs:build",
+    "bs:setup": "yarn workspace @rescriptbr/reschema bs:setup",
+    "test": "yarn workspace @rescriptbr/reschema test",
+    "test:watch": "yarn workspace @rescriptbr/reschema test:watch",
+    "lint:staged": "lint-staged",
+    "demo:start": "yarn workspace demo start",
+    "demo:bs": "yarn workspace demo bs:watch",
+    "demo:rescripts": "yarn workspace demo start:rescripts",
+    "demo:build": "yarn workspace demo build"
+  },
+  "dependencies": {
+    "bs-platform": "^8.4.2"
+  }
+}
