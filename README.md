@@ -11,7 +11,6 @@ yarn add reschema
 Add to your bsconfig.json
 ```
 "bs-dependencies": [
- "reform",
  "reschema"
 ]
 ```
