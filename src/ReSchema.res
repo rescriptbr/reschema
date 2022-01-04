@@ -265,12 +265,41 @@ module Make = (Lenses: Lenses) => {
       }
     )
 
-  let validateOne = (~field, ~values, ~i18n, schema: Validation.schema<'meta>) => {
+  let getFieldValidators = (~validators, ~fieldName) =>
+    validators->Belt.Array.keep(validator =>
+      switch validator {
+      | Validation.False({field}) => Field(field) == fieldName
+      | Validation.True({field}) => Field(field) == fieldName
+      | Validation.IntMin({field}) => Field(field) == fieldName
+      | Validation.IntMax({field}) => Field(field) == fieldName
+      | Validation.FloatMin({field}) => Field(field) == fieldName
+      | Validation.FloatMax({field}) => Field(field) == fieldName
+      | Validation.Email({field}) => Field(field) == fieldName
+      | Validation.NoValidation({field}) => Field(field) == fieldName
+      | Validation.StringNonEmpty({field}) => Field(field) == fieldName
+      | Validation.StringRegExp({field}) => Field(field) == fieldName
+      | Validation.StringMin({field}) => Field(field) == fieldName
+      | Validation.StringMax({field}) => Field(field) == fieldName
+      | Validation.Custom({field}) => Field(field) == fieldName
+      }
+    )
+
+  let validateOne: (
+    ~field: field,
+    ~values: Lenses.state,
+    ~i18n: ReSchemaI18n.t,
+    Validation.schema<'meta>,
+  ) => option<(field, fieldState)> = (~field, ~values, ~i18n, schema: Validation.schema<'meta>) => {
     let Validation.Schema(validators) = schema
 
-    getFieldValidator(~validators, ~fieldName=field)->Belt.Option.map(validator =>
-      validateField(~validator, ~values, ~i18n)
-    )
+    getFieldValidators(~validators, ~fieldName=field)
+    ->Belt.Array.map(validator => validateField(~validator, ~values, ~i18n))
+    ->Belt.Array.getBy(validation => {
+      switch validation {
+      | (_, Error(_)) => true
+      | _ => false
+      }
+    })
   }
 
   let validateFields = (~fields, ~values, ~i18n, schema: Validation.schema<'meta>) => {

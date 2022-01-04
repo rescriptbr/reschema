@@ -8,8 +8,8 @@
   "author": "Gabriel Rubens <fakenickels.dev>",
   "main": "src/ReSchema.bs.js",
   "scripts": {
-    "start": "yarn res:watch",
-    "test": "yarn res:build",
+    "start": "npm run res:watch",
+    "test": "npm run res:build",
     "test:watch": "jest --watch",
     "res:build": "rescript",
     "res:watch": "rescript build -w",
