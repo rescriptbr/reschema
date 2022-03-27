@@ -11,5 +11,5 @@ jobs:
         with:
           node-version: 14
           
-      - run: yarn install --pure-lockfile
-      - run: yarn bs:setup
+      - run: npm i
+      - run: npm run rescript:build
