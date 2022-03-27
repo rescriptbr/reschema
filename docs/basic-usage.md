@@ -15,7 +15,7 @@ module Lenses = %lenses(
 )
 ```
 
-The next step is create a custom schema module and a build a simple schema using it:
+The next step is to create a custom schema module and build a simple schema using it:
 ```rescript
 module Lenses = %lenses(
   type state = {
