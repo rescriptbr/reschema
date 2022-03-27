@@ -24,19 +24,18 @@ Schemas created with ReSchema are nothing more than constructors built-in in the
 ## Installation 📦
 
 ```sh
-yarn add @rescriptbr/reschema
+yarn add reschema
 ```
 and then, add `ReSchema` as a dependency in your `bsconfig.json`
 ```js
 {
   ...
   "bs-dependencies": [
-    "@rescriptbr/reschema"
+    "reschema"
   ],
 }
 ```
 
-
 ## Documentation 🔎
 - [Basic usage](./docs/basic-usage.md)
-- [Built-in validators](./docs/validators.md)
+- [Usage with ReForm](./docs/reform.md)
