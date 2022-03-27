@@ -11,14 +11,13 @@
   ],
   "package-specs": [
     {
-      "module": "es6",
+      "module": "commonjs",
       "in-source": true
     }
   ],
   "suffix": ".bs.js",
   "namespace": true,
-  "bs-dependencies": ["@rescript/react", "bs-css", "bs-css-emotion"],
-  "bs-dev-dependencies": [],
+  "bs-dependencies": ["reschema"],
   "ppx-flags": ["lenses-ppx/ppx"],
   "refmt": 3,
   "warnings": {

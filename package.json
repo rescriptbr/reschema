@@ -9,8 +9,6 @@
   "main": "src/ReSchema.bs.js",
   "scripts": {
     "start": "npm run res:watch",
-    "test": "npm run res:build",
-    "test:watch": "jest --watch",
     "res:build": "rescript",
     "res:watch": "rescript build -w",
     "lint:staged": "lint-staged"
