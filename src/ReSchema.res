@@ -25,48 +25,23 @@ module Make = (Lenses: Lenses) => {
 
   module Validation = {
     type rec t<'meta> =
-      | Email({field: Lenses.field<string>, error: option<string>, meta: 'meta}): t<'meta>
+      | Email({field: Lenses.field<string>, error: option<string>}): t<'meta>
       | NoValidation({field: Lenses.field<'a>, meta: 'b}): t<'meta>
-      | StringNonEmpty({field: Lenses.field<string>, error: option<string>, meta: 'meta}): t<'meta>
+      | StringNonEmpty({field: Lenses.field<string>, error: option<string>}): t<'meta>
       | StringRegExp({
           field: Lenses.field<string>,
           matches: string,
           error: option<string>,
-          meta: 'meta,
         }): t<'meta>
-      | StringMin({
-          field: Lenses.field<string>,
-          min: int,
-          error: option<string>,
-          meta: 'meta,
-        }): t<'meta>
-      | StringMax({
-          field: Lenses.field<string>,
-          max: int,
-          error: option<string>,
-          meta: 'meta,
-        }): t<'meta>
-      | IntMin({field: Lenses.field<int>, min: int, error: option<string>, meta: 'meta}): t<'meta>
-      | IntMax({field: Lenses.field<int>, max: int, error: option<string>, meta: 'meta}): t<'meta>
-      | FloatMin({
-          field: Lenses.field<float>,
-          min: float,
-          error: option<string>,
-          meta: 'meta,
-        }): t<'meta>
-      | FloatMax({
-          field: Lenses.field<float>,
-          max: float,
-          error: option<string>,
-          meta: 'meta,
-        }): t<'meta>
-      | Custom({
-          field: Lenses.field<'a>,
-          meta: 'meta,
-          predicate: Lenses.state => fieldState,
-        }): t<'meta>
-      | True({field: Lenses.field<bool>, error: option<string>, meta: 'meta}): t<'meta>
-      | False({field: Lenses.field<bool>, error: option<string>, meta: 'meta}): t<'meta>
+      | StringMin({field: Lenses.field<string>, min: int, error: option<string>}): t<'meta>
+      | StringMax({field: Lenses.field<string>, max: int, error: option<string>}): t<'meta>
+      | IntMin({field: Lenses.field<int>, min: int, error: option<string>}): t<'meta>
+      | IntMax({field: Lenses.field<int>, max: int, error: option<string>}): t<'meta>
+      | FloatMin({field: Lenses.field<float>, min: float, error: option<string>}): t<'meta>
+      | FloatMax({field: Lenses.field<float>, max: float, error: option<string>}): t<'meta>
+      | Custom({field: Lenses.field<'a>, predicate: Lenses.state => fieldState}): t<'meta>
+      | True({field: Lenses.field<bool>, error: option<string>}): t<'meta>
+      | False({field: Lenses.field<bool>, error: option<string>}): t<'meta>
     type rec schema<'meta> = Schema(array<t<'meta>>): schema<'meta>
 
     let \"+" = (a, b) => a->Belt.Array.concat(b)
@@ -76,81 +51,71 @@ module Make = (Lenses: Lenses) => {
       | None => arr
       }
 
-    let custom = (predicate, ~meta=?, field) => [
-      Custom({field: field, meta: meta, predicate: predicate}),
-    ]
+    let custom = (predicate, field) => [Custom({field: field, predicate: predicate})]
 
-    let true_ = (~error=?, ~meta=?, field) => [True({field: field, meta: meta, error: error})]
+    let true_ = (~error=?, field) => [True({field: field, error: error})]
 
-    let false_ = (~error=?, ~meta=?, field) => [False({field: field, meta: meta, error: error})]
+    let false_ = (~error=?, field) => [False({field: field, error: error})]
 
-    let email = (~error=?, ~meta=?, field) => [Email({field: field, meta: meta, error: error})]
+    let email = (~error=?, field) => [Email({field: field, error: error})]
 
-    let nonEmpty = (~error=?, ~meta=?, field) => [
-      StringNonEmpty({field: field, meta: meta, error: error}),
-    ]
+    let nonEmpty = (~error=?, field) => [StringNonEmpty({field: field, error: error})]
 
-    let string = (~min=?, ~minError=?, ~max=?, ~maxError=?, ~meta=?, field) => {
+    let string = (~min=?, ~minError=?, ~max=?, ~maxError=?, field) => {
       open Belt.Option
       \"<?"(
         \"<?"(
           [],
           min->map(min => StringMin({
             field: field,
-            meta: meta,
             min: min,
             error: minError,
           })),
         ),
         max->map(max => StringMax({
           field: field,
-          meta: meta,
           max: max,
           error: maxError,
         })),
       )
     }
 
-    let regExp = (~error=?, ~matches, ~meta=?, field) => [
-      StringRegExp({field: field, meta: meta, matches: matches, error: error}),
+    let regExp = (~error=?, ~matches, field) => [
+      StringRegExp({field: field, matches: matches, error: error}),
     ]
 
-    let float = (~min=?, ~minError=?, ~max=?, ~maxError=?, ~meta=?, field) => {
+    let float = (~min=?, ~minError=?, ~max=?, ~maxError=?, field) => {
       open Belt.Option
       \"<?"(
         \"<?"(
           [],
           min->map(min => FloatMin({
             field: field,
-            meta: meta,
             min: min,
             error: minError,
           })),
         ),
         max->map(max => FloatMax({
           field: field,
-          meta: meta,
           max: max,
           error: maxError,
         })),
       )
     }
 
-    let int = (~min=?, ~minError=?, ~max=?, ~maxError=?, ~meta=?, field) => {
+    let int = (~min=?, ~minError=?, ~max=?, ~maxError=?, field) => {
       open Belt.Option
       \"<?"(
         \"<?"(
           [],
           min->map(min => IntMin({
             field: field,
-            meta: meta,
             min: min,
             error: minError,
           })),
         ),
         max->map(max => IntMax({
           field: field,
-          meta: meta,
           max: max,
           error: maxError,
         })),
