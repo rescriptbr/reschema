@@ -5,7 +5,7 @@
   "dependencies": {
     "@rescriptbr/reform": "11.0.2",
     "lenses-ppx": "6.1.10",
-    "reschema": "2.0.3",
+    "reschema": "../",
     "rescript": "9.1.4"
   },
   "scripts": {
