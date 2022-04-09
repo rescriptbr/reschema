@@ -1,10 +1,10 @@
 {
-  "name": "reschema",
+  "name": "@rescriptbr/reschema",
   "version": "3.0.0-0",
-  "description": "",
-  "repository": "git@github.com:rescriptbr/reform.git",
-  "homepage": "https://github.com/rescriptbr/reform#readme",
-  "bugs": "https://github.com/rescriptbr/reform/issues",
+  "description": "Schema validation made easy for ReScript",
+  "repository": "git@github.com:rescriptbr/reschema.git",
+  "homepage": "https://github.com/rescriptbr/reschema#readme",
+  "bugs": "https://github.com/rescriptbr/reschema/issues",
   "author": "Gabriel Rubens <fakenickels.dev>",
   "main": "src/ReSchema.bs.js",
   "scripts": {
@@ -15,7 +15,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "rescript": "^9.0.2"
+    "rescript": "9.0.2"
   },
   "dependencies": {}
 }
