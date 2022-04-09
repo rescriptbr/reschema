@@ -12,6 +12,9 @@ on:
             - patch
             - minor
             - major
+            - premajor
+            - preminor
+            - prepatch
 
 
 jobs:
