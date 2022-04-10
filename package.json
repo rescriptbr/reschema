@@ -1,6 +1,6 @@
 {
   "name": "@rescriptbr/reschema",
-  "version": "3.0.0-3",
+  "version": "3.0.0-4",
   "description": "Schema validation made easy for ReScript",
   "repository": "git@github.com:rescriptbr/reschema.git",
   "homepage": "https://github.com/rescriptbr/reschema#readme",
