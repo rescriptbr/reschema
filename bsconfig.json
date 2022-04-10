@@ -2,6 +2,7 @@
   "name": "@rescriptbr/reschema",
   "bs-dependencies": [],
   "bs-dev-dependencies": [],
+  "ppx-flags": ["lenses-ppx/ppx"],
   "refmt": 3,
   "bsc-flags": ["-bs-super-errors"],
   "package-specs": {
@@ -11,6 +12,10 @@
   "sources": [
     {
       "dir": "src"
+    },
+    {
+      "dir": "__tests__",
+      "type": "dev"
     }
   ],
   "suffix": ".bs.js"
