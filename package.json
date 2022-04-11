@@ -8,6 +8,7 @@
   "author": "Gabriel Rubens <fakenickels.dev>",
   "main": "src/ReSchema.bs.js",
   "scripts": {
+    "test": "jest",
     "rescript:start": "npx rescript build -w",
     "rescript:build": "npx rescript build",
     "rescript:clean": "npx rescript clean",
@@ -17,5 +18,7 @@
   "devDependencies": {
     "rescript": "^9.0.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "jest": "27.5.1"
+  }
 }

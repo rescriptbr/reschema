@@ -39,14 +39,18 @@ module Make = (Lenses: Lenses) => {
       | True({field: Lenses.field<bool>, error: option<string>}): t
       | False({field: Lenses.field<bool>, error: option<string>}): t
 
-    type schema = Schema(array<t>)
+    type schema = array<t>
 
-    let \"+" = (a, b) => a->Belt.Array.concat(b)
-    let \"<?" = (arr, maybeArr) =>
-      switch maybeArr {
-      | Some(someArr) => arr + [someArr]
-      | None => arr
-      }
+    let schema = validations => validations->Belt.Array.concatMany
+
+    let mergeValidators = validations => {
+      validations->Belt.Array.reduce([], (rules, (rule, apply)) =>
+        switch rule {
+        | None => rules
+        | Some(rule) => rules->Belt.Array.concat([rule->apply])
+        }
+      )
+    }
 
     let custom = (predicate, field) => [Custom({field: field, predicate: predicate})]
 
@@ -59,22 +63,24 @@ module Make = (Lenses: Lenses) => {
     let nonEmpty = (~error=?, field) => [StringNonEmpty({field: field, error: error})]
 
     let string = (~min=?, ~minError=?, ~max=?, ~maxError=?, field) => {
-      open Belt.Option
-      \"<?"(
-        \"<?"(
-          [],
-          min->map(min => StringMin({
+      mergeValidators([
+        (
+          min,
+          min => StringMin({
             field: field,
             min: min,
             error: minError,
-          })),
+          }),
         ),
-        max->map(max => StringMax({
-          field: field,
-          max: max,
-          error: maxError,
-        })),
-      )
+        (
+          max,
+          max => StringMax({
+            field: field,
+            max: max,
+            error: maxError,
+          }),
+        ),
+      ])
     }
 
     let regExp = (~error=?, ~matches, field) => [
@@ -82,41 +88,45 @@ module Make = (Lenses: Lenses) => {
     ]
 
     let float = (~min=?, ~minError=?, ~max=?, ~maxError=?, field) => {
-      open Belt.Option
-      \"<?"(
-        \"<?"(
-          [],
-          min->map(min => FloatMin({
+      mergeValidators([
+        (
+          min,
+          min => FloatMin({
             field: field,
             min: min,
             error: minError,
-          })),
+          }),
         ),
-        max->map(max => FloatMax({
-          field: field,
-          max: max,
-          error: maxError,
-        })),
-      )
+        (
+          max,
+          max => FloatMax({
+            field: field,
+            max: max,
+            error: maxError,
+          }),
+        ),
+      ])
     }
 
     let int = (~min=?, ~minError=?, ~max=?, ~maxError=?, field) => {
-      open Belt.Option
-      \"<?"(
-        \"<?"(
-          [],
-          min->map(min => IntMin({
+      mergeValidators([
+        (
+          min,
+          min => IntMin({
             field: field,
             min: min,
             error: minError,
-          })),
+          }),
         ),
-        max->map(max => IntMax({
-          field: field,
-          max: max,
-          error: maxError,
-        })),
-      )
+        (
+          max,
+          max => IntMax({
+            field: field,
+            max: max,
+            error: maxError,
+          }),
+        ),
+      ])
     }
   }
 
@@ -246,15 +256,13 @@ module Make = (Lenses: Lenses) => {
       }
     )
 
-  let validateOne: (
+  let validateOne = (
     ~field: field,
-    ~values: Lenses.state,
-    ~i18n: ReSchemaI18n.t,
-    Validation.schema,
-  ) => option<(field, fieldState)> = (~field, ~values, ~i18n, schema: Validation.schema) => {
-    let Validation.Schema(validators) = schema
-
-    getFieldValidators(~validators, ~fieldName=field)
+    ~values,
+    ~i18n=ReSchemaI18n.default,
+    schema: Validation.schema,
+  ) => {
+    getFieldValidators(~validators=schema, ~fieldName=field)
     ->Belt.Array.map(validator => validateField(~validator, ~values, ~i18n))
     ->Belt.Array.getBy(validation => {
       switch validation {
@@ -265,20 +273,16 @@ module Make = (Lenses: Lenses) => {
   }
 
   let validateFields = (~fields, ~values, ~i18n, schema: Validation.schema) => {
-    let Validation.Schema(validators) = schema
-
     Belt.Array.map(fields, field =>
-      getFieldValidator(~validators, ~fieldName=field)->Belt.Option.map(validator =>
+      getFieldValidator(~validators=schema, ~fieldName=field)->Belt.Option.map(validator =>
         validateField(~validator, ~values, ~i18n)
       )
     )
   }
 
   let validate = (~i18n=ReSchemaI18n.default, values: Lenses.state, schema: Validation.schema) => {
-    let Validation.Schema(validators) = schema
-
     let validationList =
-      validators->Belt.Array.map(validator => validateField(~validator, ~values, ~i18n))
+      schema->Belt.Array.map(validator => validateField(~validator, ~values, ~i18n))
 
     let errors = validationList->Belt.Array.keepMap(((field, fieldState)) =>
       switch fieldState {
