@@ -32,7 +32,7 @@ module MySchema = ReSchema.Make(Lenses)
 let schema = {
   open MySchema.Validation
 
-  [
+  schema([
     StringNonEmpty({
       field: Lenses.Name,
       error: None,
