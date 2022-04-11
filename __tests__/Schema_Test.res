@@ -1,6 +1,24 @@
 open! Jest
 
-module Lenses = %lenses(type state = {name: string})
+module Lenses = {
+  type state = {name: string}
+
+  type rec field<_> = Name: field<string>
+
+  let get:
+    type value. (state, field<value>) => value =
+    (state, field) =>
+      switch field {
+      | Name => state.name
+      }
+
+  let set:
+    type value. (state, field<value>, value) => state =
+    (_, field, value) =>
+      switch field {
+      | Name => {name: value}
+      }
+}
 
 module CustomSchema = ReSchema.Make(Lenses)
 

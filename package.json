@@ -16,7 +16,6 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "lenses-ppx": "6.1.10",
     "rescript": "^9.0.2"
   },
   "dependencies": {

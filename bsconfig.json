@@ -2,7 +2,7 @@
   "name": "@rescriptbr/reschema",
   "bs-dependencies": [],
   "bs-dev-dependencies": [],
-  "ppx-flags": ["lenses-ppx/ppx"],
+  "ppx-flags": [],
   "refmt": 3,
   "bsc-flags": ["-bs-super-errors"],
   "package-specs": {
