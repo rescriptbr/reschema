@@ -1,4 +1,9 @@
 ## API Reference
+- [`Make(...)`](#reschemamake)
+- [`fieldState`](#fieldstate)
+- [`recordValidationState<'a>`](#recordvalidationstatea)
+- [Validation](#module-validation)
+  - [`type t`](#type-t)
 
 ### `ReSchema.Make(...)`
 The module functor `ReForm.Make` receives a module type with the following signature:
