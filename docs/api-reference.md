@@ -1,8 +1,7 @@
-## API
+## API Reference
 
 ### `ReSchema.Make(...)`
 The module functor `ReForm.Make` receives a module type with the following signature:
-> 💡 This module can be generated using [`lenses-ppx`](https://github.com/rescriptbr/lenses-ppx).
 
 ```rescript
 module type Lenses = {
@@ -12,8 +11,10 @@ module type Lenses = {
   let get: (state, field<'a>) => 'a
 }
 ```
+> 💡 This module can be generated using [`lenses-ppx`](https://github.com/rescriptbr/lenses-ppx).
 
 ### `fieldState`
+The field state.
 ```rescript
 type fieldState =
   | Valid
@@ -28,8 +29,64 @@ type recordValidationState<'a> =
   | Errors(array<('a, string)>)
 ```
 
-## `Validation`
-This is the validation module.
+### `validate(...)`
+```rescript
+let validate: (
+  ~i18n: ReSchemaI18n.t=?,
+  Lenses.state,
+  Validation.schema,
+) => recordValidationState<field>
+```
+### `validateField(..)`
+```rescript
+let validateField: (
+  ~validator: Validation.t,
+  ~values: Lenses.state,
+  ~i18n: ReSchemaI18n.t,
+) => (field, fieldState)
+```
+### `validateFields(..)`
+```rescript
+let validateFields: (
+  ~fields: array<field>,
+  ~values: Lenses.state,
+  ~i18n: ReSchemaI18n.t,
+  Validation.schema,
+) => array<option<(field, fieldState)>>
+```
+### `validateOne(...)`
+```rescript
+let validateOne: (
+  ~field: field,
+  ~values: Lenses.state,
+  ~i18n: ReSchemaI18n.t=?,
+  Validation.schema,
+) => option<(field, fieldState)>
+```
+### `getFieldValidators(...)`
+```rescript
+let getFieldValidators: (
+  ~validators: array<Validation.t>,
+  ~fieldName: field,
+) => array<Validation.t>
+```
+### `getFieldValidator(...)`
+```rescript
+let getFieldValidator: (
+  ~validators: array<Validation.t>,
+  ~fieldName: field,
+) => option<Validation.t>
+```
+
+## `module RegExps`
+
+### `email`
+```rescript
+let email: Js.Re.t
+```
+
+## `module Validation`
+This is the validation module. It contains the main functions and structures that you're going to use to create and validate schemas.
 
 ### `type t`
 ```rescript
@@ -97,5 +154,75 @@ type rec t =
 ### `schema`
 ```rescript
 type schema = array<t>
+```
+
+### Validation aliases
+There are some aliases functions for the [`schema`](##type-t) type.
+This functions can be very useful to create validation for string or float fields.
+
+#### `custom(...)`
+This is an alias function for the `Custom(...)` schema variant. 
+It's used to create custom validations by passing a `predicate` and `field` that will be validated.
+```rescript
+let custom: (Lenses.state => fieldState, Lenses.field<'a>) => array<schema>
+```
+
+#### `true_(...)`
+This is an alias function for the `True(...)` schema variant.
+```rescript
+let true_: (~error: option<string>, Lenses.field<'a>) => array<schema>
+```
+#### `false_(...)`
+This is an alias function for the `False(...)` schema variant.
+```rescript
+let false_: (~error: option<string>, Lenses.field<'a>) => array<schema>
+```
+#### `email(...)`
+This is an alias function for the `Email(...)` schema variant.
+```rescript
+let email: (~error: option<string>, Lenses.field<'a>) => array<schema>
+```
+#### `nonEmpty(...)`
+This is an alias function for the `StringNonEmpty(...)` schema variant.
+```rescript
+let nonEmpty: (~error: option<string>, Lenses.field<'a>) => array<schema>
+```
+#### `string(...)`
+This is an alias function for the `StringMin(...)` and `StringMax(...)` schema variant.
+```rescript
+let string: (
+  ~min: option<int>, 
+  ~minError: option<string>, 
+  ~max: option<int>, 
+  ~maxError: option<string>,
+  Lenses.field<'a>
+) => array<schema>
+```
+#### `regExp(...)`
+This is an alias function for the `StringRegExp(...)` schema variant.
+```rescript
+let regExp: (~error: option<string>, ~matches: Js.RegExp.t, Lenses.field<'a>) => array<schema>
+```
+#### `float(...)`
+This is an alias function for the `FloatMin(...)` and `FloatMax(...)` schema variant.
+```rescript
+let float: (
+  ~min: option<float>, 
+  ~minError: option<string>, 
+  ~max: option<float>, 
+  ~maxError: option<string>,
+  Lenses.field<'a>
+) => array<schema>
+```
+#### `int(...)`
+This is an alias function for the `IntMin(...)` and `IntMax(...)` schema variant.
+```rescript
+let int: (
+  ~min: option<int>, 
+  ~minError: option<string>, 
+  ~max: option<int>, 
+  ~maxError: option<string>,
+  Lenses.field<'a>
+) => array<schema>
 ```
 
