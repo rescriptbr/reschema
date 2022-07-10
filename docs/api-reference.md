@@ -2,6 +2,8 @@
 
 ### `ReSchema.Make(...)`
 The module functor `ReForm.Make` receives a module type with the following signature:
+> 💡 This module can be generated using [`lenses-ppx`](https://github.com/rescriptbr/lenses-ppx).
+
 ```rescript
 module type Lenses = {
   type field<'a>
@@ -36,7 +38,9 @@ type rec t =
         field: Lenses.field<string>, 
         error: option<string>
       }): t
-    | NoValidation({field: Lenses.field<'a>}): t
+    | NoValidation({
+        field: Lenses.field<'a>
+      }): t
     | StringNonEmpty({
         field: Lenses.field<string>, a
         error: option<string>
