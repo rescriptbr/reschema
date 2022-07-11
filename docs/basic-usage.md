@@ -27,16 +27,12 @@ module Lenses = %lenses(
   }
 )
 
-/* 
-* We create a schema module combining ReSchema.Make functor 
-* and the Lenses module created by lenses-ppx
-*/
 module MySchema = ReSchema.Make(Lenses)
 
 let schema = {
   open MySchema.Validation
 
-  schema([
+  [
     StringNonEmpty({
       field: Lenses.Name,
       error: None,
@@ -48,7 +44,6 @@ let schema = {
     }),
   ]
 }
-
 ```
 Now, we can use any function of `MySchema` module to validate our state. In this case, we'll use the `validate` function to validate all fields of the state:
 ```rescript
@@ -61,11 +56,41 @@ switch result {
 | Errors(errors) => Js.log2("Errors =>", errors)
 }
 ```
-If you run this code in your browser (or Node) the result probably will be something like: `Errors => [ [ { _0: 2 }, 'This value must be greater than or equal to 18' ] ]`
-
-## Using validation aliases
-ReSchema provides some [validation functions] to create schemas without adding a lot of variants in the schema array.
-You can use these functions to create validations for `IntMin` and `IntMax` using a single a function `int(...)`. Let's see in practice:
-```rescript
-
+If you run this code in your browser (or Node) the result probably will be something like: 
+```javascript
+"Errors => [ [ { _0: 2 }, 'This value must be greater than or equal to 18' ] ]"
 ```
+
+## Using validators
+ReSchema provides some [validators] to create schemas without adding a lot of variants in the schema.
+You can use these functions to create validations for `IntMin` and `IntMax` using a single a function `int(...)`. Let's see in practice:
+
+```rescript
+module Lenses = %lenses(
+  type state = {
+    name: string,
+    email: string,
+    age: int,
+  }
+)
+
+module MySchema = ReSchema.Make(Lenses)
+
+let schema = {
+  open MySchema.Validation
+
+  schema([
+    // Add this
+    nonEmpty(Name), 
+    int(~min=18, Age),
+  ])
+}
+
+let result = MySchema.validate({name: "Marcos", email: "", age: 12}, schema)
+
+switch result {
+| Valid => Js.log("Valid")
+| Errors(errors) => Js.log2("Errors =>", errors)
+}
+```
+> 💡 You can see all available validators [here](/api-reference).
