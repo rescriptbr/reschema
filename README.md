@@ -25,7 +25,7 @@ Schemas created with ReSchema are nothing more than constructors built-in in the
 ## Installation 📦
 
 ```sh
-yarn add reschema
+yarn add @rescriptbr/reschema
 ```
 and then, add `ReSchema` as a dependency in your `bsconfig.json`
 ```js
