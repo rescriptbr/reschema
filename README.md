@@ -6,7 +6,8 @@
   <a href="#what-is-this-">What is this?</a> • 
   <a href="#features-">Features</a> • 
   <a href="#installation-">Installation</a> • 
-  <a href="#documentation-">Documentation</a>
+  <a href="#documentation-">Documentation</a> •
+  <a target="_blank" href="https://reform-demo.rescriptbrasil.org">Live demo (with ReForm)</a>
 </p>
 <br/>
 
