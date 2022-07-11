@@ -1,9 +1,24 @@
 ## API Reference
 - [`Make(...)`](#reschemamake)
-- [`fieldState`](#fieldstate)
-- [`recordValidationState<'a>`](#recordvalidationstatea)
+- [`type fieldState`](#fieldstate)
+- [`type recordValidationState<'a>`](#recordvalidationstatea)
+- [`let validate`](#validate)
+- [`let validateField`](#validatefield)
+- [`let validateFields`](#validatefields)
+- [`let validateOne`](#validatefields)
 - [Validation](#module-validation)
   - [`type t`](#type-t)
+  - [`type schema`](#schema)
+  - [`Validation aliases`](#validation-aliases)
+    - [`custom(...)`](#custom)
+    - [`true_(...)`](#true_)
+    - [`false(...)`](#false_)
+    - [`email(...)`](#email)
+    - [`nonEmpty(...)`](#email)
+    - [`string(...)`](#string)
+    - [`regExp(...)`](#regexp)
+    - [`float(...)`](#float)
+    - [`int(...)`](#int)
 
 ### `ReSchema.Make(...)`
 The module functor `ReForm.Make` receives a module type with the following signature:
