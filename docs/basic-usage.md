@@ -15,6 +15,8 @@ module Lenses = %lenses(
 )
 ```
 
+### Creating our schema
+
 The next step is to create a custom schema module and build a simple schema using it:
 ```rescript
 module Lenses = %lenses(
@@ -25,8 +27,10 @@ module Lenses = %lenses(
   }
 )
 
-// We create a schema module combining ReSchema.Make functor 
-// and the Lenses module created by lenses-ppx
+/* 
+* We create a schema module combining ReSchema.Make functor 
+* and the Lenses module created by lenses-ppx
+*/
 module MySchema = ReSchema.Make(Lenses)
 
 let schema = {
@@ -58,3 +62,10 @@ switch result {
 }
 ```
 If you run this code in your browser (or Node) the result probably will be something like: `Errors => [ [ { _0: 2 }, 'This value must be greater than or equal to 18' ] ]`
+
+## Using validation aliases
+ReSchema provides some [validation functions] to create schemas without adding a lot of variants in the schema array.
+You can use these functions to create validations for `IntMin` and `IntMax` using a single a function `int(...)`. Let's see in practice:
+```rescript
+
+```
