@@ -16,6 +16,7 @@ Schemas created with ReSchema are nothing more than constructors built-in in the
 
 ## Features ⚡
 - Schema validation using GADT's
+- Built-in validators
 - Type-safe validation
 - I18n support
 - Regex support
@@ -31,11 +32,11 @@ and then, add `ReSchema` as a dependency in your `bsconfig.json`
 {
   ...
   "bs-dependencies": [
-    "reschema"
+    "@rescriptbr/reschema"
   ],
 }
 ```
 
 ## Documentation 🔎
-- [Basic usage](./docs/basic-usage.md)
-- [Usage with ReForm](./docs/reform.md)
+- [Getting Started](./docs/1-getting-started.md)
+- [API Reference](./docs/2-api-reference.md)
