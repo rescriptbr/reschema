@@ -16,9 +16,9 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "rescript": "^9.0.2"
+    "jest": "27.5.1"
   },
   "dependencies": {
-    "jest": "27.5.1"
+    "rescript": "^9.0.2"
   }
 }

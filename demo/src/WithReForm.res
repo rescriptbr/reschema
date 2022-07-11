@@ -26,7 +26,7 @@ let useMyForm = () => {
     ~schema={
       open MyForm.Validation
 
-      Schema(string(~min=3, Name) + int(~min=18, Age))
+      schema([string(~min=3, Name), int(~min=18, Age)])
     },
     (),
   )

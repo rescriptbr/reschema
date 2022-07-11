@@ -11,17 +11,7 @@ module MySchema = ReSchema.Make(Lenses)
 let schema = {
   open MySchema.Validation
 
-  [
-    StringNonEmpty({
-      field: Lenses.Name,
-      error: None,
-    }),
-    IntMin({
-      field: Age,
-      min: 18,
-      error: None,
-    }),
-  ]
+  schema([nonEmpty(Name), int(~min=18, Age)])
 }
 
 let result = MySchema.validate({name: "Marcos", email: "", age: 12}, schema)
