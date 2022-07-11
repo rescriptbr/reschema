@@ -9,7 +9,7 @@
 - [Validation](#module-validation)
   - [`type t`](#type-t)
   - [`type schema`](#schema)
-  - [`Validation aliases`](#validation-aliases)
+  - [`Validators`](#validators)
     - [`custom(...)`](#custom)
     - [`true_(...)`](#true_)
     - [`false(...)`](#false_)
@@ -176,39 +176,33 @@ type rec t =
 type schema = array<t>
 ```
 
-### Validation aliases
-There are some aliases functions for the [`schema`](##type-t) type.
-This functions can be very useful to create validation for string or float fields.
+### Validators
+ReSchema provides some validators built on top of the `schema` type.
+This functions can be very useful to create validations without adding a lot of variant constructors to the schema array.
 
 #### `custom(...)`
-This is an alias function for the `Custom(...)` schema variant. 
 It's used to create custom validations by passing a `predicate` and `field` that will be validated.
 ```rescript
 let custom: (Lenses.state => fieldState, Lenses.field<'a>) => array<schema>
 ```
 
 #### `true_(...)`
-This is an alias function for the `True(...)` schema variant.
 ```rescript
 let true_: (~error: option<string>, Lenses.field<'a>) => array<schema>
 ```
 #### `false_(...)`
-This is an alias function for the `False(...)` schema variant.
 ```rescript
 let false_: (~error: option<string>, Lenses.field<'a>) => array<schema>
 ```
 #### `email(...)`
-This is an alias function for the `Email(...)` schema variant.
 ```rescript
 let email: (~error: option<string>, Lenses.field<'a>) => array<schema>
 ```
 #### `nonEmpty(...)`
-This is an alias function for the `StringNonEmpty(...)` schema variant.
 ```rescript
 let nonEmpty: (~error: option<string>, Lenses.field<'a>) => array<schema>
 ```
 #### `string(...)`
-This is an alias function for the `StringMin(...)` and `StringMax(...)` schema variant.
 ```rescript
 let string: (
   ~min: option<int>, 
@@ -219,12 +213,10 @@ let string: (
 ) => array<schema>
 ```
 #### `regExp(...)`
-This is an alias function for the `StringRegExp(...)` schema variant.
 ```rescript
 let regExp: (~error: option<string>, ~matches: Js.RegExp.t, Lenses.field<'a>) => array<schema>
 ```
 #### `float(...)`
-This is an alias function for the `FloatMin(...)` and `FloatMax(...)` schema variant.
 ```rescript
 let float: (
   ~min: option<float>, 
@@ -235,7 +227,6 @@ let float: (
 ) => array<schema>
 ```
 #### `int(...)`
-This is an alias function for the `IntMin(...)` and `IntMax(...)` schema variant.
 ```rescript
 let int: (
   ~min: option<int>, 
