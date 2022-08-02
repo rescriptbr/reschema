@@ -93,4 +93,4 @@ switch result {
 | Errors(errors) => Js.log2("Errors =>", errors)
 }
 ```
-> 💡 You can see all available validators [here](https://github.com/rescriptbr/reschema/blob/docs/basic-usage/docs/2-api-reference.md#validators).
+> 💡 You can see all available validators [here](https://github.com/rescriptbr/reschema/blob/master/docs/2-api-reference.md#validators).
