@@ -130,10 +130,6 @@ module Make = (Lenses: Lenses) => {
     }
   }
 
-  module RegExps = {
-    @module("./ReSchemaRegExp") external email: Js.Re.t = "email"
-  }
-
   let validateField = (~validator, ~values, ~i18n: ReSchemaI18n.t): (field, fieldState) =>
     switch validator {
     | Validation.True({field, error}) =>
@@ -178,7 +174,7 @@ module Make = (Lenses: Lenses) => {
       let value = Lenses.get(values, field)
       (
         Field(field),
-        Js.Re.test_(RegExps.email, value)
+        Js.Re.test_(ReSchemaRegExp.email, value)
           ? Valid
           : Error(error->Belt.Option.getWithDefault(i18n.email(~value))),
       )
